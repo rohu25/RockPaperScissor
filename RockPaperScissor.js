@@ -14,7 +14,6 @@ const genCompChoice = () => {
 }
 
 const drawGame = () => {
-    // console.log("Game was Draw");
     msg.innerText = "Oops! Match Draw";
     msg.style.backgroundColor = "yellow";
 }
@@ -23,23 +22,32 @@ const showWinner = (userWin, userChoice, compChoice) => {
     if (userWin) {
         userScore++;
         userScorePara.innerText = userScore;
-        // console.log("You Win!");
         msg.innerText = `You Win the Game! Your ${userChoice} beats ${compChoice}`;
         msg.style.backgroundColor = "green";
-    }
-    else {
+    } else {
         computerScore++;
         compScorePara.innerText = computerScore;
-        // console.log("You Lose!");
         msg.innerText = `You Lose the Game! ${compChoice} beats your ${userChoice}`;
         msg.style.backgroundColor = "red";
     }
+
+    // Check if either score reached 7
+    if (userScore >= 7 || computerScore >= 7) {
+        setTimeout(resetGame, 2000); // Wait 2 seconds before resetting
+    }
+}
+
+const resetGame = () => {
+    userScore = 0;
+    computerScore = 0;
+    userScorePara.innerText = userScore;
+    compScorePara.innerText = computerScore;
+    msg.innerText = "Game Restarted! Want to play again!";
+    //msg.style.backgroundColor = "white";
 }
 
 const playGame = (userChoice) => {
-    // console.log("Users Choice = ", userChoice);
     const compChoice = genCompChoice();
-    // console.log("Computer choice = ", compChoice);
 
     if (userChoice === compChoice) {
         drawGame();
@@ -60,6 +68,5 @@ choices.forEach((choice) => {
     choice.addEventListener("click", () => {
         const userChoice = choice.getAttribute("id");
         playGame(userChoice);
-        // console.log("Choice was chosen", userChoice);
     });
 });
